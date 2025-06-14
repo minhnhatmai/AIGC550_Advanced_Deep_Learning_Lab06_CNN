@@ -1,0 +1,43 @@
+weight_decay = 5e-4
+dropout_rate = 0.4
+
+model = models.Sequential([
+    layers.Input(shape=(32, 32, 3)),
+    data_augmentation,
+
+    # Block 1
+    layers.Conv2D(64, 3, strides=1, padding='same', activation='relu',
+                  kernel_regularizer=regularizers.l2(weight_decay)),
+    layers.BatchNormalization(),
+    layers.Conv2D(64, 3, strides=1, padding='same', activation='relu',
+                  kernel_regularizer=regularizers.l2(weight_decay)),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D(2, strides=2),
+    layers.Dropout(dropout_rate),
+
+    # Block 2
+    layers.Conv2D(128, 3, strides=1, padding='same', activation='relu',
+                  kernel_regularizer=regularizers.l2(weight_decay)),
+    layers.BatchNormalization(),
+    layers.Conv2D(128, 3, strides=1, padding='same', activation='relu',
+                  kernel_regularizer=regularizers.l2(weight_decay)),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D(2, strides=2),
+    layers.Dropout(dropout_rate),
+
+    # Block 3
+    layers.Conv2D(256, 3, strides=1, padding='same', activation='relu',
+                  kernel_regularizer=regularizers.l2(weight_decay)),
+    layers.BatchNormalization(),
+    layers.Conv2D(256, 3, strides=1, padding='same', activation='relu',
+                  kernel_regularizer=regularizers.l2(weight_decay)),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D(2, strides=2),
+    layers.Dropout(dropout_rate),
+
+    layers.Flatten(),
+    layers.Dense(256, activation='relu',
+                 kernel_regularizer=regularizers.l2(weight_decay)),
+    layers.Dropout(dropout_rate),
+    layers.Dense(100, activation='softmax')
+])
